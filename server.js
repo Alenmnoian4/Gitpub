@@ -1,28 +1,25 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+const drinks = require('./models/drinks');
+const food = require('./models/food');
 
-const express = require('express')
-const app = require(express())
-const port = 3000
-const drinks = require('./models/drinks.js')
-
-const choices = (req) => {
-    console.log(`${req.method} ${req.url}`)
-    console.log(req.params)
-    
-}
-
-app.get('/', (req, res) => {
-    choices(req)
-    res.send('Welcome to the Gitpub App!')
+app.get('/', (req,res)=>{
+    res.send('Welcome to the Gitpub App!');
 })
 
-app.get('/drinks', (req, res) => {
-    res.render('index', {drink: drinks})
+app.get('/drinks', (req,res)=>{
+    res.render('drinks_index.ejs', { allDrinks:drinks, allFood:food });
 })
 
-app.get('drinks/:id', (req, res) => {
-    res.render('show', {drink: drinks[req.params.id]})
+app.get('/drinks/:id', (req,res)=>{
+    res.render('drinks_show.ejs', { drink:drinks[req.params.id] })
+})
+
+app.get('/food/:id', (req,res)=>{
+    res.render('food_show.ejs', { feed:food[req.params.id] })
 })
 
 app.listen(port, () => {
-    console.log('running', port)
-})
+	console.log(`Listening on port ${port}...`);
+});
